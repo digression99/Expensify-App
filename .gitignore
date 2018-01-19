@@ -5,9 +5,6 @@
 
 # dependencies
 /node_modules
-/indecision-app/node_modules
-/expensify-app/node_modules
-/boilerplate-v1/node_modules
 
 # testing
 /coverage
@@ -29,7 +26,7 @@ yarn-error.log*
 # starter kit file.
 /basic
 
-/expensify-app/public/bundle.js
-/expensify-app/public/bundle.js.map
-/expensify-app/public/styles.css
-/expensify-app/public/styles.css.map
+/public/bundle.js
+/public/bundle.js.map
+/public/styles.css
+/public/styles.css.map
