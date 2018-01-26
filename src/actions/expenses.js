@@ -1,22 +1,55 @@
-
-// action generators for expenses
-import { createStore, combineReducers } from 'redux';
 import uuid from 'uuid';
+import database from '../firebase/firebase';
 
+// export const addExpense = ({ description = '', note = '', amount = 0, createdAt = 0 } = {}) => ({
+//     type : 'ADD_EXPENSE',
+//     expense : {
+//         id : uuid(),
+//         description,
+//         note,
+//         amount,
+//         createdAt
+//     }
+// });
 
-
-// action generator.
-// add expense
-export const addExpense = ({ description = '', note = '', amount = 0, createdAt = 0 } = {}) => ({
+export const addExpense = expense => ({
     type : 'ADD_EXPENSE',
-    expense : {
-        id : uuid(),
-        description,
-        note,
-        amount,
-        createdAt
-    }
+    expense
 });
+
+export const startAddExpense = (expenseData = {}) => dispatch => {
+    const {
+        description = '', note = '', amount = 0, createdAt = 0 // default data
+    } = expenseData; // destructure.
+    const expense = {
+        description, note, amount, createdAt
+    };
+    return database.ref('expenses').push(expense)
+        .then((ref) => {
+            dispatch(addExpense({
+                id : ref.key,
+                ...expense
+            }));
+        });
+};
+
+// export const startAddExpense = (expenseData = {}) => {
+//     return (dispatch) => {
+//         const {
+//             description = '', note = '', amount = 0, createdAt = 0 // default data
+//         } = expenseData; // destructure.
+//         const expense = {
+//             description, note, amount, createdAt
+//         };
+//         database.ref('expenses').push(expense)
+//             .then((ref) => {
+//                 dispatch(addExpense({
+//                     id : ref.key,
+//                     ...expense
+//                 }));
+//             });
+//     }
+// };
 
 export const removeExpense = ({ id = undefined } = {}) => ({
     type : 'REMOVE_EXPENSE',

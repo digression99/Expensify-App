@@ -30,3 +30,6 @@ yarn-error.log*
 /public/bundle.js.map
 /public/styles.css
 /public/styles.css.map
+
+.env.development
+.env.test
