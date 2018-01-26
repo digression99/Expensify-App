@@ -55,12 +55,8 @@ export const editExpense = (id, updates) => ({
 
 export const startEditExpense = (id, updates) => dispatch =>
     database.ref(`expenses/${id}`)
-        .update({
-            ...updates
-        })
-        .then(() => {
-            dispatch(editExpense(id, updates));
-        });
+        .update(updates)
+        .then(() => dispatch(editExpense(id, updates)));
 
 // create startEditExpense (same call signature as editExpense)
 // test startEditExpense with 'should edit expenses from firebase'

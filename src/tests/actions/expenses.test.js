@@ -190,7 +190,7 @@ test('should edit expense from firebase', (done) => {
         })
         .then(snapshot => {
             expect(snapshot.key).toBe(id);
-            expect(snapshot.val()).toEqual(updates);
+            expect(snapshot.val().amount).toEqual(updates.amount);
             done();
         });
 });
