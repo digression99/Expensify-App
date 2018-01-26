@@ -70,3 +70,13 @@ test('should not edit an expense', () => {
     expect(state).toEqual(expenses); // don't use toBe here.
     // expect(state[2].description).toBe(action.updates.description);
 });
+
+test('should set expenses', () => {
+    const action = {
+        type : 'SET_EXPENSES',
+        expenses : [expenses[1]]
+    };
+
+    const state = expensesReducer(expenses, action);
+    expect(state).toEqual([expenses[1]]);
+});
