@@ -33,28 +33,19 @@ export const startAddExpense = (expenseData = {}) => dispatch => {
         });
 };
 
-// export const startAddExpense = (expenseData = {}) => {
-//     return (dispatch) => {
-//         const {
-//             description = '', note = '', amount = 0, createdAt = 0 // default data
-//         } = expenseData; // destructure.
-//         const expense = {
-//             description, note, amount, createdAt
-//         };
-//         database.ref('expenses').push(expense)
-//             .then((ref) => {
-//                 dispatch(addExpense({
-//                     id : ref.key,
-//                     ...expense
-//                 }));
-//             });
-//     }
-// };
-
-export const removeExpense = ({ id = undefined } = {}) => ({
+export const removeExpense = ({ id } = {}) => ({
     type : 'REMOVE_EXPENSE',
     id
 });
+
+export const startRemoveExpense = ({id} = {}) => dispatch => {
+    // console.log('in start remove expense, id : ', id);
+    return database.ref(`expenses/${id}`).remove()
+        .then(() => {
+            // console.log('in start remove expense, before dispatch, id : ', id);
+            dispatch(removeExpense({id}));
+        });
+};
 
 export const editExpense = (id, updates) => ({
     type : 'EDIT_EXPENSE',
@@ -85,6 +76,11 @@ export const startSetExpenses = (expenses = []) => dispatch => {
             dispatch(setExpenses(expenses));
         })
 };
+
+// create startRemoveExpense (same call signature as removeExpense)
+// test startRemoveExpense with 'should remove expenses from firebase' // test if it's null.
+// use startremoveExpense in EditExpensePage instread of removeExpense
+// adjust EditExpensePage tests
 
 
 // const printExpenses = snapshot => {
