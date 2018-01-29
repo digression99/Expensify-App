@@ -17,14 +17,15 @@ export const addExpense = expense => ({
     expense
 });
 
-export const startAddExpense = (expenseData = {}) => dispatch => {
+export const startAddExpense = (expenseData = {}) => (dispatch, getState) => {
+    const uid = getState().auth.uid;
     const {
         description = '', note = '', amount = 0, createdAt = 0 // default data
     } = expenseData; // destructure.
     const expense = {
         description, note, amount, createdAt
     };
-    return database.ref('expenses').push(expense)
+    return database.ref(`users/${uid}/expenses`).push(expense)
         .then((ref) => {
             dispatch(addExpense({
                 id : ref.key,
@@ -33,14 +34,32 @@ export const startAddExpense = (expenseData = {}) => dispatch => {
         });
 };
 
+
+// export const startAddExpense = (expenseData = {}) => dispatch => {
+//     const {
+//         description = '', note = '', amount = 0, createdAt = 0 // default data
+//     } = expenseData; // destructure.
+//     const expense = {
+//         description, note, amount, createdAt
+//     };
+//     return database.ref('expenses').push(expense)
+//         .then((ref) => {
+//             dispatch(addExpense({
+//                 id : ref.key,
+//                 ...expense
+//             }));
+//         });
+// };
+
 export const removeExpense = ({ id } = {}) => ({
     type : 'REMOVE_EXPENSE',
     id
 });
 
-export const startRemoveExpense = ({id} = {}) => dispatch => {
+export const startRemoveExpense = ({id} = {}) => (dispatch, getState) => {
+    const uid = getState().auth.uid;
     // console.log('in start remove expense, id : ', id);
-    return database.ref(`expenses/${id}`).remove()
+    return database.ref(`users/${uid}/expenses/${id}`).remove()
         .then(() => {
             // console.log('in start remove expense, before dispatch, id : ', id);
             dispatch(removeExpense({id}));
@@ -53,10 +72,13 @@ export const editExpense = (id, updates) => ({
     updates
 });
 
-export const startEditExpense = (id, updates) => dispatch =>
-    database.ref(`expenses/${id}`)
+export const startEditExpense = (id, updates) => (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/expenses/${id}`)
         .update(updates)
         .then(() => dispatch(editExpense(id, updates)));
+}
+
 
 // create startEditExpense (same call signature as editExpense)
 // test startEditExpense with 'should edit expenses from firebase'
@@ -74,8 +96,10 @@ export const setExpenses = (expenses) => ({
 // parse that data into an array.
 // dispatch SET_EXPENSES
 
-export const startSetExpenses = (expenses = []) => dispatch => {
-    return database.ref('expenses').once('value')
+export const startSetExpenses = (expenses = []) => (dispatch, getState) => {
+    const uid = getState().auth.uid;
+
+    return database.ref(`users/${uid}/expenses`).once('value')
         .then(snapshot => {
             snapshot.forEach(childSnapshot => {
                 expenses.push({
