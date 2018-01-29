@@ -78,8 +78,8 @@ test('should add expense to database and store', (done) => {
         description : 'mouse',
         amount : 3000,
         note : 'this one is better',
-        createdAt : 1000
-    };
+            createdAt : 1000
+        };
 
     store.dispatch(startAddExpense(expenseData))
         .then(() => {
