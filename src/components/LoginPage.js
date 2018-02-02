@@ -11,10 +11,15 @@ export class LoginPage extends React.Component {
     };
 
     render = () => (
-        <div>
-            <button
-                onClick={this.onButtonClick}
-            >Login</button>
+        <div className="box-layout">
+            <div className="box-layout__box">
+                <h1 className="box-layout__title">Expensify</h1>
+                <p>It's time to get your expenses under control.</p>
+                <button
+                    className="button-layout"
+                    onClick={this.onButtonClick}
+                >Login with Google</button>
+            </div>
         </div>
     );
 }

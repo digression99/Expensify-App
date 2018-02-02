@@ -1,0 +1,24 @@
+.button-layout {
+  background : $blue;
+  //width : max-width;
+  font-family : Helvetica, Arial, sans-serif;
+  font-weight : 500;
+  font-size : $font-size-large;
+  line-height : 1;
+  color : white;
+  display : inline-block;
+  padding : $m-size $xl-size $m-size $xl-size; // top right bottom left
+  justify-content : center;
+  text-decoration : none;
+}
+
+.button--link {
+  background : none;
+  border : none;
+  color : white;
+  padding : 0;
+}
+
+.button--secondary {
+  background : #888888;
+}
