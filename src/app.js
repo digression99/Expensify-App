@@ -20,7 +20,6 @@ import LoadingPage from './components/LoadingPage';
 
 const store = configureStore();
 
-
 let hasRendered = false;
 
 const renderApp = () => {
